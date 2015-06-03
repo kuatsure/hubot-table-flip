@@ -1,7 +1,7 @@
 {
   "name": "hubot-table-flip",
   "description": "Have a hubot flip a table!",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": {
     "name": "Jarrett Drouillard",
     "email": "jarrett@thestyl.us"

@@ -67,7 +67,7 @@ module.exports = ( robot ) ->
     msg.send "You can flip these tables! :v:\n#{FLIPS.join '\n'}"
 
   robot.respond /t(ableflip|f)( .*)?/i, ( msg ) ->
-    _ = require 'lodash'
+    { rest } = require 'lodash'
 
     if msg.match[2]?
       match = msg.match[2].substring 1
@@ -78,7 +78,7 @@ module.exports = ( robot ) ->
 
       else if parts[0] is 'this'
         if parts.length > 1
-          match = _flipping _.rest parts
+          match = _flipping rest parts
 
         else
           match = _flipping [ 'arrgh!' ]

@@ -21,24 +21,60 @@ TABLEFLIP =
   base_url: 'http://table-flip.herokuapp.com'
 
 FLIPS = [
-  'flipping'
-  'patience'
-  'pudgy'
-  'battle'
-  'me'
-  'aggravated'
-  'putback'
-  'dude'
-  'emotional'
-  'freakout'
-  'hercules'
-  'jedi'
-  'bear'
-  'magical'
-  'robot'
-  'russia'
-  'happy'
+  name: 'flipping'
+  description: 'the classic'
+,
+  name: 'patience'
+  description: 'no flip'
+,
+  name: 'pudgy'
+  description: 'fat flip'
+,
+  name: 'battle'
+  description: 'fight to flip'
+,
+  name: 'me'
+  description: 'the table\'s revenge'
+,
+  name: 'aggravated'
+  description: 'FFFUUUUUU'
+,
+  name: 'putback'
+  description: 'peace at last'
+,
+  name: 'dude'
+  description: 'no tables nearby'
+,
+  name: 'emotional'
+  description: 'I know that feel, bro'
+,
+  name: 'freakout'
+  description: 'screw this game!'
+,
+  name: 'hercules'
+  description: 'RAWR!'
+,
+  name: 'jedi'
+  description: 'flip or flip not, there is no try'
+,
+  name: 'bear'
+  description: 'but this table flipped just right'
+,
+  name: 'magical'
+  description: 'not just an illusion'
+,
+  name: 'robot'
+  description: 'all the good table flipping jobs...'
+,
+  name: 'russia'
+  description: 'in Soviet Russia table flip you'
+,
+  name: 'happy'
+  description: 'all smiles'
 ]
+
+table_flip_names = []
+table_flip_names.push flip.name for flip in FLIPS
 
 _flipping = ( parts ) ->
   "flipping/#{parts.join ' '}"
@@ -64,7 +100,10 @@ _flipIt = ( msg, query, cb ) ->
 
 module.exports = ( robot ) ->
   robot.respond /table_list/i, ( msg ) ->
-    msg.send "You can flip these tables! :v:\n#{FLIPS.join '\n'}"
+    table_flips = []
+    table_flips.push "#{flip.name} - #{flip.description}" for flip in FLIPS
+
+    msg.send "You can flip these tables! :v:\n\n#{table_flips.join '\n'}\n\nHappy Flipping! :sunglasses:"
 
   robot.respond /t(ableflip|f)( .*)?/i, ( msg ) ->
     { rest } = require 'lodash'
@@ -73,7 +112,7 @@ module.exports = ( robot ) ->
       match = msg.match[2].substring 1
       parts = match.split ' '
 
-      if parts[0] in FLIPS and parts.length is 1
+      if parts[0] in table_flip_names and parts.length is 1
         match = parts[0]
 
       else if parts[0] is 'this'
@@ -88,7 +127,7 @@ module.exports = ( robot ) ->
         match = _flipping parts
 
     else
-      match = msg.random FLIPS
+      match = msg.random table_flip_names
 
     _flipIt msg, match, ( flippage ) ->
       msg.send flippage

@@ -5,11 +5,11 @@
 #   Lodash
 #
 # Configuration:
-#   None
+#   HUBOT_TABLE_FLIP_THIS
 #
 # Commands:
 #   hubot tableflip | tf - Returns a random flipped table!
-#   hubot tableflip | tf this - Returns a flipped table of 'arrgh!'!
+#   hubot tableflip | tf this - Returns a flipped table of configurable word ( or arrgh! )!
 #   hubot tableflip | tf this <text> - Returns a flipped table of <text>!
 #   hubot tableflip | tf <text> - Returns a specific flipped table based on <text> else flips <text>!
 #   hubot table_list - Returns a list of flippable tables!
@@ -81,7 +81,8 @@ module.exports = ( robot ) ->
           match = _flipping rest parts
 
         else
-          match = _flipping [ 'arrgh!' ]
+          tableFlipThis = process.env.HUBOT_TABLE_FLIP_THIS or 'arrgh!'
+          match = _flipping [ tableFlipThis ]
 
       else
         match = _flipping parts

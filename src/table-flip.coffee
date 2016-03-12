@@ -15,10 +15,10 @@
 # Author:
 #   Jarrett Drouillard ( @kuatsure )
 
-tableFlip =
+TABLEFLIP =
   base_url: 'http://table-flip.herokuapp.com'
 
-flips = [
+FLIPS = [
   'flipping'
   'patience'
   'pudgy'
@@ -38,38 +38,11 @@ flips = [
   'happy'
 ]
 
-module.exports = ( robot ) ->
-  robot.respond /t(ableflip|f)( .*)?/i, ( msg ) ->
-    _ = require 'lodash'
-
-    if msg.match[2]?
-      match = msg.match[2].substring 1
-      parts = match.split ' '
-
-      if parts[0] in flips and parts.length is 1
-        match = parts[0]
-
-      else if parts[0] is 'this'
-        if parts.length > 1
-          match = _flipping _.rest parts
-
-        else
-          match = _flipping [ 'arrgh!' ]
-
-      else
-        match = _flipping parts
-
-    else
-      match = msg.random flips
-
-    flipIt msg, match, ( flippage ) ->
-      msg.send flippage
-
 _flipping = ( parts ) ->
   "flipping/#{parts.join ' '}"
 
-flipIt = ( msg, query, cb ) ->
-  url = "#{tableFlip.base_url}/#{query}"
+_flipIt = ( msg, query, cb ) ->
+  url = "#{TABLEFLIP.base_url}/#{query}"
 
   msg.http( url )
     .get() ( err, res, body ) ->
@@ -86,3 +59,30 @@ flipIt = ( msg, query, cb ) ->
         cb 'Error'
 
       return if response is undefined
+
+module.exports = ( robot ) ->
+  robot.respond /t(ableflip|f)( .*)?/i, ( msg ) ->
+    _ = require 'lodash'
+
+    if msg.match[2]?
+      match = msg.match[2].substring 1
+      parts = match.split ' '
+
+      if parts[0] in FLIPS and parts.length is 1
+        match = parts[0]
+
+      else if parts[0] is 'this'
+        if parts.length > 1
+          match = _flipping _.rest parts
+
+        else
+          match = _flipping [ 'arrgh!' ]
+
+      else
+        match = _flipping parts
+
+    else
+      match = msg.random FLIPS
+
+    _flipIt msg, match, ( flippage ) ->
+      msg.send flippage

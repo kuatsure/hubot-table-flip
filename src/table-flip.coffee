@@ -12,6 +12,7 @@
 #   hubot tableflip | tf this - Returns a flipped table of 'arrgh!'!
 #   hubot tableflip | tf this <text> - Returns a flipped table of <text>!
 #   hubot tableflip | tf <text> - Returns a specific flipped table based on <text> else flips <text>!
+#   hubot table_list - Returns a list of flippable tables!
 #
 # Author:
 #   Jarrett Drouillard ( @kuatsure )
@@ -62,6 +63,9 @@ _flipIt = ( msg, query, cb ) ->
       return if response is undefined
 
 module.exports = ( robot ) ->
+  robot.respond /table_list/i, ( msg ) ->
+    msg.send "You can flip these tables! :v:\n#{FLIPS.join '\n'}"
+
   robot.respond /t(ableflip|f)( .*)?/i, ( msg ) ->
     _ = require 'lodash'
 
